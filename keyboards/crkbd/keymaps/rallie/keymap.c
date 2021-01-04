@@ -7,14 +7,16 @@
 
 // Tap Dance declarations
 enum {
-    TD_LRCBR, TD_LRBRC
+    TD_LRCBR, TD_LRBRC, TD_LRBK
 };
 
-  // Tap once for left curly brace, twice for right
-  // Tap once for left bracket, twice for right
+  // Tap once for left curly brace ({), twice for right
+  // Tap once for left bracket ([), twice for right
+  // Tap once for left angle bracket (<), twice for right
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_LRCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),
   [TD_LRBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+  [TD_LRBK] = ACTION_TAP_DANCE_DOUBLE(KC_LT, KC_GT),
 };
 
 // clang-format off
@@ -48,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, XXXXXXX, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX,  KC_DLR, KC_PERC, KC_CIRC, _______,                     TD(TD_LRCBR), KC_MINS,  KC_EQL, XXXXXXX, KC_PIPE,  KC_GRV,\
+      KC_LCTL, XXXXXXX,  KC_DLR, KC_PERC, KC_CIRC, _______,                     TD(TD_LRCBR), KC_MINS,  KC_EQL, TD(TD_LRBK), KC_PIPE,  KC_GRV,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, XXXXXXX, KC_EXLM,   KC_AT, KC_HASH, _______,                     TD(TD_LRBRC), KC_UNDS, KC_PLUS, XXXXXXX, KC_BSLS, KC_TILD,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
