@@ -2,14 +2,6 @@
 
 extern uint8_t is_master;
 
-#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-#    include "rgb.c"
-#endif
-
-#ifdef AUDIO_ENABLE
-extern audio_config_t audio_config;
-#endif
-
 // 5x3 Logos
 
 void render_corne_logo(void) {
@@ -53,35 +45,6 @@ void render_layer(void) {
     }
     oled_write_P(font_layer[layer], false);
 };
-
-    // 2x1 Audio, clicky and RGB status indicators
-
-#ifdef AUDIO_ENABLE
-void render_audio_status(void) {
-    static const char PROGMEM font_audio_off[3] = {0x8f, 0x90, 0};
-    static const char PROGMEM font_audio_on[3]  = {0x91, 0x92, 0};
-    oled_write_P(audio_config.enable ? font_audio_on : font_audio_off, false);
-};
-
-void render_clicky_status(void) {
-    static const char PROGMEM font_clicky_off[3] = {0xaf, 0xb0, 0};
-    static const char PROGMEM font_clicky_on[3]  = {0xb1, 0xb2, 0};
-    oled_write_P(audio_config.clicky_enable ? font_clicky_on : font_clicky_off, false);
-};
-#endif
-
-#if defined(RGB_MATRIX_ENABLE) || defined(RGBLIGHT_ENABLE)
-void render_rgb_status(void) {
-    static const char PROGMEM font_rgb_off[3] = {0xcf, 0xd0, 0};
-    static const char PROGMEM font_rgb_on[3]  = {0xd1, 0xd2, 0};
-#    ifdef RGBLIGHT_ENABLE
-    bool rgb_enabled = rgblight_config.enable;
-#    elif RGB_MATRIX_ENABLE
-    bool rgb_enabled = rgb_matrix_config.enable;
-#    endif
-    oled_write_P(rgb_enabled ? font_rgb_on : font_rgb_off, false);
-};
-#endif
 
 // 2x1 Ctrl, Alt, Shift, GUI, Mouse
 
@@ -129,17 +92,6 @@ void render_mod_status(void) {
     oled_write_P(PSTR(" "), false);
     (modifiers & MOD_MASK_GUI) ? render_mod_gui() : oled_write_P(PSTR("  "), false);
 }
-
-void render_feature_status(void) {
-#if defined(RGB_MATRIX_ENABLE) || defined(RGBLIGHT_ENABLE)
-    render_rgb_status();
-#endif
-
-#ifdef AUDIO_ENABLE
-    oled_write_P(PSTR(" "), false);
-    render_audio_status();
-#endif
-};
 
 // Keylogger
 #define KEYLOGGER_LENGTH 5
@@ -215,12 +167,6 @@ void render_status_secondary(void) {
     oled_write_ln("", false);
     oled_write_ln("", false);
     oled_write_ln("", false);
-
-    #if defined(RGB_MATRIX_ENABLE) || defined(RGBLIGHT_ENABLE) || defined(AUDIO_ENABLE)
-        layer_state_is(_ADJUST) ? render_feature_status() : render_mod_status();
-    #else
-        render_mod_status();
-    #endif
 };
 
 void render_status_main(void) {
