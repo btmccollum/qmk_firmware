@@ -40,5 +40,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT         CRKBD Loose Transistor Ed.
 
 // Custom Font path
+<<<<<<< HEAD
 /* #define OLED_FONT_H "keyboards/crkbd/keymaps/kidbrazil/glcdfont.c" */
+=======
+#define OLED_FONT_H "keyboards/crkbd/keymaps/kidbrazil/glcdfont.c"
+>>>>>>> 3d05d71c3a979200f475f37d041fda0e4780ed2a
 #define OLED_DISABLE_TIMEOUT
